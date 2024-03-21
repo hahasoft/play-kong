@@ -17,6 +17,7 @@ services:
     networks:
       - kong-network
     environment:
+      TZ: ${TZ:-Asia/Bangkok}
       KONG_DATABASE: "off"
       KONG_PROXY_ACCESS_LOG: /dev/stdout
       KONG_ADMIN_ACCESS_LOG: /dev/stdout
@@ -50,11 +51,14 @@ services:
     image: pantsel/konga
     ports:
       - 1337:1337
+    environment:
+      TZ: ${TZ:-Asia/Bangkok}
+      NODE_ENV: development
     networks:
       - kong-network
     depends_on:
       - kong
-    links:
-      - kong:kong
+    volumes:
+      - ./compose/konga_data:/app/kongadata
     container_name: konga  
  
